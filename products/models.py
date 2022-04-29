@@ -21,6 +21,13 @@ class ProductDetailPage(Page):
     body = StreamField([
         ("title_and_subtitle", blocks.TitleAndSubtitleBlock()),
     ], null=True, blank=True)
+    category = models.ForeignKey(
+        'products.ProductCategory',
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     content_panels = Page.content_panels + [
         InlinePanel(
@@ -30,6 +37,7 @@ class ProductDetailPage(Page):
             label="Product Images"
         ),
         FieldPanel("body"),
+        FieldPanel("category"),
     ]
 
 
