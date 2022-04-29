@@ -9,6 +9,11 @@ class BlogIndexPage(Page):
     max_count = 1
     subpage_types = ['blog.BlogPostPage']
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['blog_posts'] = BlogPostPage.objects.live()
+        return context
+
 
 class BlogPostPage(Page):
     parent_page_types = ['blog.BlogIndexPage']
