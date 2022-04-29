@@ -22,6 +22,8 @@
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
@@ -35,6 +37,9 @@
             {% endfor %}
         </nav>
 
+        <div class="border bg-red-700 p-10 text-blue-200">
+            stuff here
+        </div>
 
         {% block content %}{% endblock %}
 
