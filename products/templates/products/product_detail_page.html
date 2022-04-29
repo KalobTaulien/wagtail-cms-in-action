@@ -3,6 +3,9 @@
 
 
 {% block content %}
+
+    Category: {{ page.category.name }}
+
     {% for product_image in page.product_images.all %}
         {% image product_image.image fill-250x250 as img %}
         <div>

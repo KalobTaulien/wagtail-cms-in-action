@@ -2,8 +2,10 @@ from django.db import models
 from modelcluster.fields import ParentalKey
 
 from wagtail.admin.panels import FieldPanel, InlinePanel
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
+from wagtail.search import index
+from wagtail.snippets.models import register_snippet
 
 from products import blocks
 
@@ -20,6 +22,13 @@ class ProductDetailPage(Page):
     body = StreamField([
         ("title_and_subtitle", blocks.TitleAndSubtitleBlock()),
     ], null=True, blank=True)
+    category = models.ForeignKey(
+        'products.ProductCategory',
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     content_panels = Page.content_panels + [
         InlinePanel(
@@ -29,6 +38,7 @@ class ProductDetailPage(Page):
             label="Product Images"
         ),
         FieldPanel("body"),
+        FieldPanel("category"),
     ]
 
 
@@ -49,3 +59,21 @@ class ProductImages(Orderable):
         FieldPanel("alt_text"),
         FieldPanel("short_description"),
     ]
+
+
+@register_snippet
+class ProductCategory(index.Indexed, models.Model):
+    name = models.CharField(max_length=30)
+    description = RichTextField(blank=True, features=[])
+    slug = models.SlugField(unique=True)
+
+    search_fields = [
+        index.SearchField('name', partial_match=True),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Product category"
+        verbose_name_plural = "Product categories"
