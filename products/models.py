@@ -2,7 +2,10 @@ from django.db import models
 from modelcluster.fields import ParentalKey
 
 from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.core.fields import StreamField
 from wagtail.core.models import Page, Orderable
+
+from products import blocks
 
 
 class ProductIndexPage(Page):
@@ -14,6 +17,10 @@ class ProductDetailPage(Page):
     parent_page_types = ['products.ProductIndexPage']
     subpage_types = []
 
+    body = StreamField([
+        ("title_and_subtitle", blocks.TitleAndSubtitleBlock()),
+    ], null=True, blank=True)
+
     content_panels = Page.content_panels + [
         InlinePanel(
             "product_images",
@@ -21,6 +28,7 @@ class ProductDetailPage(Page):
             min_num=1,
             label="Product Images"
         ),
+        FieldPanel("body"),
     ]
 
 
