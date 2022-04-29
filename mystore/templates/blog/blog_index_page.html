@@ -1,9 +1,27 @@
 {% extends "base.html" %}
 
+{% block hero %}
+    <div class="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+        <header class="max-w-6xl mx-auto py-24 text-white text-center">
+            <h1 class="text-5xl">{{ page.title }}</h1>
+        </header>
+    </div>
+{% endblock %}
 
 {% block content %}
-    {% for child in blog_posts %}
-        <h1>{{ child.title }}</h1>
-        <a href="{{ child.url }}">Read blog post</a>
-    {% endfor %}
+    <div class="divide-y divide-solid">
+        {% for child in blog_posts %}
+            <section class="py-12">
+                <a href="{{ child.url }}" class="text-3xl">
+                    {{ child.title }}
+                </a>
+                {% comment %}
+                    You could add a subtitle and image in here, too.
+                    Don't forget to add those fields to your models.py
+                    file, run migrations, and then you can access them
+                    with {{ child.specific.subtitle }}
+                {% endcomment %}
+            </section>
+        {% endfor %}
+    </div>
 {% endblock content %}
