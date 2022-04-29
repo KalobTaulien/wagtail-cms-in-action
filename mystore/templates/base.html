@@ -29,19 +29,46 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        <nav>
-            <a href="/">Home</a>
-            {% global_nav_items as nav_items %}
-            {% for item in nav_items %}
-                <a href="{{ item.url }}">{{ item.title }}</a>
-            {% endfor %}
+        <nav class="border-b shadow-md p-4">
+            <div class="max-w-6xl mx-auto flex justify-between">
+                <a href="/">Home</a>
+                <div>
+                    {% global_nav_items as nav_items %}
+                    {% for menu_page in nav_items %}
+                        <a
+                            href="{{ menu_page.url }}"
+                            class="text-blue-500 hover:text-black transition"
+                            >
+                            {{ menu_page.title }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
         </nav>
 
-        <div class="border bg-red-700 p-10 text-blue-200">
-            stuff here
+        {% block hero %}{% endblock %}
+
+        <div class="max-w-6xl mx-auto py-12">
+            {% block content %}{% endblock %}
         </div>
 
-        {% block content %}{% endblock %}
+        {% block footer %}
+            <footer class="max-w-6xl mx-auto border-t py-12 my-12">
+                <div class="flex justify-center space-x-4">
+                    <div>
+                        <a href="/">Home</a>
+                    </div>
+                    {% for menu_page in nav_items %}
+                        <a href="{{ menu_page.url }}" class="text-black">
+                            {{ menu_page.title }}
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="text-center text-sm">
+                    Copyright &copy; {% now "Y" %}
+                </div>
+            </footer>
+        {% endblock %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/mystore.js' %}"></script>
