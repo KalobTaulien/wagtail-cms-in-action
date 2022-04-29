@@ -2,7 +2,9 @@ from wagtail.core.models import Page
 
 
 class BlogIndexPage(Page):
-    pass
+    max_count = 1
+    subpage_types = ['blog.BlogPostPage']
+
 
 class BlogPostPage(Page):
-    pass
+    parent_page_types = ['blog.BlogIndexPage']
