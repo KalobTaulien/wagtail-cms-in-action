@@ -4,6 +4,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Orderable
+from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 from products import blocks
@@ -61,10 +62,14 @@ class ProductImages(Orderable):
 
 
 @register_snippet
-class ProductCategory(models.Model):
+class ProductCategory(index.Indexed, models.Model):
     name = models.CharField(max_length=30)
     description = RichTextField(blank=True, features=[])
     slug = models.SlugField(unique=True)
+
+    search_fields = [
+        index.SearchField('name', partial_match=True),
+    ]
 
     def __str__(self):
         return self.name
