@@ -1,0 +1,4 @@
+{% load wagtailimages_tags %}
+
+{% image self fill-250x250 as img %}
+<img src="{{ img.url }}" alt="">

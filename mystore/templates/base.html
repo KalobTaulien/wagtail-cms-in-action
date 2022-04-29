@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load static wagtailcore_tags wagtailuserbar global_navigation %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +26,15 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
+
+        <nav>
+            <a href="/">Home</a>
+            {% global_nav_items as nav_items %}
+            {% for item in nav_items %}
+                <a href="{{ item.url }}">{{ item.title }}</a>
+            {% endfor %}
+        </nav>
+
 
         {% block content %}{% endblock %}
 

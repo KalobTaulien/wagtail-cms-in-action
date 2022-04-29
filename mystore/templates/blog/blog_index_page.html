@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    {% for child in blog_posts %}
+        <h1>{{ child.title }}</h1>
+        <a href="{{ child.url }}">Read blog post</a>
+    {% endfor %}
+{% endblock content %}
