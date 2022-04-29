@@ -3,6 +3,19 @@
 
 {% block body_class %}template-homepage{% endblock %}
 
+{% block hero %}
+    <div class="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+        <header class="max-w-6xl mx-auto py-24 text-white grid grid-cols-3 gap-8">
+            <div class="col-span-2">
+                <h1 class="text-5xl">{{ page.title }}</h1>
+            </div>
+            <div>
+                {% if page.subtitle %}{{ page.subtitle }}{% endif %}
+            </div>
+        </header>
+    </div>
+{% endblock %}
+
 {% block content %}
     {{ page.title }} - {{ page.subtitle }}
 

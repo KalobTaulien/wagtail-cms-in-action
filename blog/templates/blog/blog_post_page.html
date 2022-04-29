@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
+{% block hero %}
+    <div class="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+        <header class="max-w-6xl mx-auto py-24 text-white text-center">
+            <small>{{ page.get_parent.title }}</small>
+            <h1 class="text-5xl">{{ page.title }}</h1>
+        </header>
+    </div>
+{% endblock %}
 
 {% block content %}
     <h1>{{ page.title }}</h1>
