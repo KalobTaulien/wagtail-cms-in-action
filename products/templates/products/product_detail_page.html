@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags %}
+
+
+{% block content %}
+    {% for product_image in page.product_images.all %}
+        {% image product_image.image fill-250x250 as img %}
+        <div>
+            <img src="{{ img.url }}" alt=" {{product_image.alt_text }}"><br>
+            {% if product_image.short_description %}
+                {{ product_image.short_description }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock content %}
