@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
+
 from modelcluster.fields import ParentalKey
 
 from wagtail.admin.panels import FieldPanel, InlinePanel
@@ -40,6 +43,11 @@ class ProductDetailPage(Page):
         FieldPanel("body"),
         FieldPanel("category"),
     ]
+
+    def save(self, *args, **kwargs):
+        key = make_template_fragment_key("product_page_cache", [self.id])
+        cache.delete(key)
+        return super().save(*args, **kwargs)
 
 
 class ProductImages(Orderable):

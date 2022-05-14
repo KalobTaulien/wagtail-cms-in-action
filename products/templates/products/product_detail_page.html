@@ -1,20 +1,27 @@
 {% extends "base.html" %}
-{% load wagtailimages_tags wagtailcore_tags %}
+{% load wagtailimages_tags wagtailcore_tags cache %}
 
 
 {% block content %}
+    {% if request.is_preview %}
+        {% comment %}  #A
+            Show your preview in here.  #A
+        {% endcomment %}  #A
+    {% else %}
+        {% cache 604800 product_page_cache page.id %}
+            Category: {{ page.category.name }}
 
-    Category: {{ page.category.name }}
+            {% for product_image in page.product_images.all %}
+                {% image product_image.image fill-250x250 as img %}
+                <div>
+                    <img src="{{ img.url }}" alt=" {{product_image.alt_text }}"><br>
+                    {% if product_image.short_description %}
+                        {{ product_image.short_description }}
+                    {% endif %}
+                </div>
+            {% endfor %}
 
-    {% for product_image in page.product_images.all %}
-        {% image product_image.image fill-250x250 as img %}
-        <div>
-            <img src="{{ img.url }}" alt=" {{product_image.alt_text }}"><br>
-            {% if product_image.short_description %}
-                {{ product_image.short_description }}
-            {% endif %}
-        </div>
-    {% endfor %}
-
-    {% include_block page.body %}
+            {% include_block page.body %}
+        {% endcache %}
+    {% endif %}
 {% endblock content %}
